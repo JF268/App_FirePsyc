@@ -32,6 +32,34 @@ class HomePage extends StatelessWidget {
                 });
               });
             }, child: Text("Obtener listado")),
+            ElevatedButton(onPressed: (){
+              //apuntamos a la colección instanciada y con get obtenemos la data
+              productividad.add(
+                {
+                  "description" : "Alcancé un nuevo puesto en la empresa",
+                  "satisfaction" : true,
+                }
+                //nos devuelve un ID
+              ).then((DocumentReference value){
+                print(value.id);
+                }).catchError((error){
+                print("Ocurrió un error");
+                }).whenComplete((){
+                 print("El registro de añadió");
+              });
+            }, child: Text("Agregar actividad")),
+            ElevatedButton(onPressed: (){
+              //apuntamos a la colección instanciada y con get obtenemos la data
+              productividad.
+              doc("mHNEGQI2pTHNTOznXs9W").update({
+                "description": "fui de paseo",
+                "satisfaction": true,
+              }).catchError((error){
+                print(error);
+              }).whenComplete((){
+                print("Actualización completa");
+              });
+            }, child: Text("Actualizar documento")),
           ],
         ),
       ),
