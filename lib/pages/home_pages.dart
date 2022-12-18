@@ -6,19 +6,10 @@ class HomePage extends StatelessWidget {
   //instanciando una colección(objeto) de firestore - apuntando
   CollectionReference productividad = FirebaseFirestore.instance.collection('productividad');
 
-  //añadiendo Stream
-  Stream<int> counter() async*{
-    for(int i=0;i<10;i++){
-      yield i;
-      await Future.delayed(const Duration(seconds: 2));
-    }
-  }
-  Future<int> getNumber() async{
-    return 1000;
-  }
-
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text("PysC-JF Home"),
@@ -99,11 +90,20 @@ class HomePage extends StatelessWidget {
       // ),
       //introduciendo StreamBuilder
       body: StreamBuilder(
-        stream: counter(),
+        stream: productividad.snapshots(),
         builder: (BuildContext context, AsyncSnapshot snap){
           if(snap.hasData){
-            int data = snap.data;
-            return Center(child: Text(data.toString(), style: TextStyle(fontSize: 80),));
+            QuerySnapshot collection = snap.data;
+            //apuntando a una colección
+            List<QueryDocumentSnapshot> docs = collection.docs;
+            //generar una lista de mapas
+            List<Map<String,dynamic>> docsMap = docs.map((e) => e.data() as Map<String,dynamic>).toList();
+            return ListView.builder(itemCount: docsMap.length,
+            itemBuilder: (BuildContext context, int index){
+              return ListTile(
+                title: Text(docsMap[index]["description"]),
+              );
+            },);
           }
           return Center(child: CircularProgressIndicator(),);
         },
