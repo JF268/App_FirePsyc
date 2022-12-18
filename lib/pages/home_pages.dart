@@ -60,6 +60,28 @@ class HomePage extends StatelessWidget {
                 print("Actualización completa");
               });
             }, child: Text("Actualizar documento")),
+            ElevatedButton(onPressed: (){
+              //apuntamos a la colección instanciada y para eliminar usamos su id
+              productividad.
+              doc("mHNEGQI2pTHNTOznXs9W").delete().catchError((error){
+                print(error);
+              }).whenComplete((){
+                print("Eliminado");
+              });
+            }, child: Text("Eliminar actividad")),
+            ElevatedButton(onPressed: (){
+              //apuntamos a la colección instanciada y para eliminar usamos su id
+              productividad.
+              doc("act001").set({
+                "description": "Aprobar las materias",
+                "satisfaction": false,
+                "estado": false,
+              },).catchError((error){
+                print(error);
+              }).whenComplete((){
+                print("Actividad añadida");
+              });
+            }, child: Text("Agregar actividad nueva personalizada")),
           ],
         ),
       ),
