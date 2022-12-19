@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:psycjfapp/widgets/navigation_bar.dart';
 
 class HomePage extends StatelessWidget {
 
@@ -13,6 +14,8 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("PysC-JF Home"),
+        shadowColor: Colors.black,
+        backgroundColor: Colors.teal,
       ),
       // body: Center(
       //   child: Column(
@@ -89,25 +92,32 @@ class HomePage extends StatelessWidget {
       //   ),
       // ),
       //introduciendo StreamBuilder
-      body: StreamBuilder(
-        stream: productividad.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot snap){
-          if(snap.hasData){
-            QuerySnapshot collection = snap.data;
-            //apuntando a una colección
-            List<QueryDocumentSnapshot> docs = collection.docs;
-            //generar una lista de mapas
-            List<Map<String,dynamic>> docsMap = docs.map((e) => e.data() as Map<String,dynamic>).toList();
-            return ListView.builder(itemCount: docsMap.length,
-            itemBuilder: (BuildContext context, int index){
-              return ListTile(
-                title: Text(docsMap[index]["description"]),
-              );
-            },);
-          }
-          return Center(child: CircularProgressIndicator(),);
-        },
+      // body: StreamBuilder(
+      //   stream: productividad.snapshots(),
+      //   builder: (BuildContext context, AsyncSnapshot snap){
+      //     if(snap.hasData){
+      //       QuerySnapshot collection = snap.data;
+      //       //apuntando a una colección
+      //       List<QueryDocumentSnapshot> docs = collection.docs;
+      //       //generar una lista de mapas
+      //       List<Map<String,dynamic>> docsMap = docs.map((e) => e.data() as Map<String,dynamic>).toList();
+      //       return ListView.builder(itemCount: docsMap.length,
+      //       itemBuilder: (BuildContext context, int index){
+      //         return ListTile(
+      //           title: Text(docsMap[index]["description"]),
+      //         );
+      //       },);
+      //     }
+      //     return Center(child: CircularProgressIndicator(),);
+      //   },
+      // ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            child: Text("Aqui aparecerán los elementos"),),
+        ),
       ),
+      bottomNavigationBar: NavigationBarCustom(),
     );
   }
 }
