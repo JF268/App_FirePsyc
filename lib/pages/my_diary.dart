@@ -6,6 +6,27 @@ class MyDiary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Anota aqui tu día a diá"),);
+    return Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.teal, Colors.white70
+                ],
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+              ),
+            ),
+          ),
+          title: Text("Añadir entrada", style: TextStyle(fontWeight: FontWeight.w500),),
+          leading: Icon(Icons.menu_book_rounded,size: 40),
+          actions: <Widget> [
+            IconButton(onPressed: (){}, icon: const Icon(Icons.border_color,color: Colors.black45,))
+          ],
+        ),
+        body: Center(
+          child: Text("Hola a todos"),)
+    );
   }
 }

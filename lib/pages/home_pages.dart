@@ -6,22 +6,28 @@ import 'package:psycjfapp/pages/settings_app.dart';
 import 'package:psycjfapp/widgets/navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
-
+  const HomePage ({Key? key}): super(key:key);
   @override
   State<HomePage> createState() => _HomePageState();
 }
-
+//Pagina principal de App Raíz
 class _HomePageState extends State<HomePage> {
+  int index = 0;
+  NavigationBarCustom ?myNav;
+  @override
+  void initState() {
+    myNav = NavigationBarCustom(currentIndex: (i){
+      setState(() {
+        index = i;
+      });
+    });
+    super.initState();
+  }
   //instanciando una colección(objeto) de firestore - apuntando
   CollectionReference productividad = FirebaseFirestore.instance.collection('productividad');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("PysC-JF Home"),
-        shadowColor: Colors.black,
-        backgroundColor: Colors.teal,
-      ),
       // body: Center(
       //   child: Column(
       //     mainAxisAlignment: MainAxisAlignment.center,
@@ -116,27 +122,24 @@ class _HomePageState extends State<HomePage> {
       //     return Center(child: CircularProgressIndicator(),);
       //   },
       // ),
-      body: _InitHome(),
-      bottomNavigationBar: NavigationBarCustom(),
+      bottomNavigationBar: myNav,
+      body: Rutas(index: index),
     );
   }
 }
 
 
-class _InitHome extends StatelessWidget {
-  const _InitHome({Key? key}) : super(key: key);
+class Rutas extends StatelessWidget {
+  final int index;
+  const Rutas({Key? key, required this.index}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     //variable para posicionarnos en el Botton NavigationBar
-     int currentIndex = 1;
-    switch(currentIndex){
-      case 0:
-        return PageStart();
-      case 1:
-        return MyDiary();
-      case 3:
-        return PageSetting();
-    }
-    return const Placeholder();
+    List<Widget> myList = [
+      PageStart(),
+      MyDiary(),
+      PageSetting(),
+    ];
+    return myList[index];
   }
 }

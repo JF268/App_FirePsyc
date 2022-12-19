@@ -5,15 +5,24 @@ class PageStart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: Column(
-          children: [
-            Text("Tips para manejar el estrés"),
-            Icon(Icons.pages, size: 40,),
-          ],
+    return Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.teal, Colors.white70
+                ],
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+              ),
+            ),
+          ),
+          title: Center(child: Text("PsyC-JF Inicio", style: TextStyle(fontWeight: FontWeight.w500),)),
+          actions: <Widget> [],
         ),
-      ),
+      body: Center(
+        child: Text("Descrubre novedades"),)
     );
   }
 }
