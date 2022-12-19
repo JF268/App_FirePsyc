@@ -6,6 +6,8 @@ class NavigationBarCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+        selectedItemColor: Colors.teal,
+        elevation: 10.6,
         items: [
           const
           BottomNavigationBarItem(icon: Icon(Icons.home_max),label: 'Inicio'),

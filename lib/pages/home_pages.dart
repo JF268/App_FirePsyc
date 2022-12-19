@@ -1,16 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:psycjfapp/pages/Page_start.dart';
+import 'package:psycjfapp/pages/my_diary.dart';
+import 'package:psycjfapp/pages/settings_app.dart';
 import 'package:psycjfapp/widgets/navigation_bar.dart';
 
-class HomePage extends StatelessWidget {
-
-  //instanciando una colección(objeto) de firestore - apuntando
-  CollectionReference productividad = FirebaseFirestore.instance.collection('productividad');
+class HomePage extends StatefulWidget {
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  //instanciando una colección(objeto) de firestore - apuntando
+  CollectionReference productividad = FirebaseFirestore.instance.collection('productividad');
+  @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         title: Text("PysC-JF Home"),
@@ -111,13 +116,27 @@ class HomePage extends StatelessWidget {
       //     return Center(child: CircularProgressIndicator(),);
       //   },
       // ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            child: Text("Aqui aparecerán los elementos"),),
-        ),
-      ),
+      body: _InitHome(),
       bottomNavigationBar: NavigationBarCustom(),
     );
+  }
+}
+
+
+class _InitHome extends StatelessWidget {
+  const _InitHome({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    //variable para posicionarnos en el Botton NavigationBar
+     int currentIndex = 1;
+    switch(currentIndex){
+      case 0:
+        return PageStart();
+      case 1:
+        return MyDiary();
+      case 3:
+        return PageSetting();
+    }
+    return const Placeholder();
   }
 }
