@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:psycjfapp/widgets/satisfaction_widget.dart';
 
 class HistoryWidget extends StatelessWidget {
   const HistoryWidget({Key? key}) : super(key: key);
@@ -16,13 +17,9 @@ class HistoryWidget extends StatelessWidget {
                 child: Column(
                   children: [
                     Text('10/12/2022'),
-                    Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 2.5),
-                        decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(6.0)
-                        ),
-                        child: Text('Satisfactorio')),
+                    WidgetSatisfaction(
+                      text: "Insatisfacción",
+                    ),
                   ],
                 ),
               ),
