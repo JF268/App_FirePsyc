@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:psycjfapp/widgets/divider_widget.dart';
+import 'package:psycjfapp/widgets/widget_history.dart';
 
 
 class MyDiary extends StatelessWidget {
@@ -39,54 +40,10 @@ class MyDiary extends StatelessWidget {
                   color: Colors.black87.withOpacity(0.55),
                 ),),
                 divider6(),
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      Card(
-                        child: ListTile(
-                          leading: Padding(
-                            padding: EdgeInsets.only(top: 12.0),
-                            child: Text("10/12/2022"),
-                          ),
-                          autofocus: true,
-                          title: Text('Titulo de historia 1'),
-                          subtitle:
-                          Text('Hoy obtuve un nuevo trabajo como desarrollador y las horas laborales son bastante ligeras'),
-                          trailing: Icon(Icons.more_vert_rounded),
-                          isThreeLine: true,
-                        ),
-                      ),
-                      Card(
-                        child: ListTile(
-                          leading: Padding(
-                            padding: EdgeInsets.only(top: 12.0),
-                            child: Text("11/12/2022"),
-                          ),
-                          autofocus: true,
-                          title: Text('Titulo de historia 2'),
-                          subtitle:
-                          Text("Aqui puede entrar otra historia que desees añadir al dirio"),
-                          trailing: Icon(Icons.more_vert_rounded),
-                          isThreeLine: true,
-                        ),
-                      ),
-                      Card(
-                        child: ListTile(
-                          leading: Padding(
-                            padding: EdgeInsets.only(top: 12.0),
-                            child: Text("15/12/2022"),
-                          ),
-                          autofocus: true,
-                          title: Text('Titulo de historia 3'),
-                          subtitle:
-                          Text('Hoy no fue un buen dia y tuve una conflicto con un amigo de la universidad'),
-                          trailing: Icon(Icons.more_vert_rounded),
-                          isThreeLine: true,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+                HistoryWidget(),
+                HistoryWidget(),
+                HistoryWidget(),
+                HistoryWidget(),
               ],
             ),
           ),
