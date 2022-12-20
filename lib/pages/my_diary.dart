@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:psycjfapp/models/diary_model.dart';
 import 'package:psycjfapp/widgets/divider_widget.dart';
 import 'package:psycjfapp/widgets/widget_history.dart';
 
 
 class MyDiary extends StatelessWidget {
-  const MyDiary({Key? key}) : super(key: key);
+
+  //instanciando una colección(objeto) de firestore - apuntando
+  CollectionReference historia = FirebaseFirestore.instance.collection('productividad');
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +44,29 @@ class MyDiary extends StatelessWidget {
                   color: Colors.black87.withOpacity(0.55),
                 ),),
                 divider6(),
-                HistoryWidget(),
-                HistoryWidget(),
-                HistoryWidget(),
-                HistoryWidget(),
+                StreamBuilder(
+                  stream: historia.snapshots(),
+                  builder: (BuildContext context, AsyncSnapshot snap){
+                    if(snap.hasData){
+                      List<ModelDiary> historys = []; 
+                      QuerySnapshot collection = snap.data;
+                      collection.docs.forEach((element) {
+                        Map<String, dynamic> myMap = element.data() as Map<String, dynamic>;
+                        historys.add(ModelDiary.fromJson(myMap));
+                      });
+                      return ListView.builder(
+                        itemCount: historys.length,
+                        shrinkWrap: true,
+                        physics: const ScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index){
+                            return HistoryWidget(
+                              modelDiary: historys[index],);
+                        },
+                      );
+                    }
+                    return Center(child: loadingWidget());
+                  },
+                ),
               ],
             ),
           ),

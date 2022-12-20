@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:psycjfapp/models/diary_model.dart';
 import 'package:psycjfapp/widgets/satisfaction_widget.dart';
 
 class HistoryWidget extends StatelessWidget {
-  const HistoryWidget({Key? key}) : super(key: key);
+
+  ModelDiary modelDiary;
+
+  HistoryWidget({required this.modelDiary});
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +20,17 @@ class HistoryWidget extends StatelessWidget {
                 padding: EdgeInsets.only(top: 1.0),
                 child: Column(
                   children: [
-                    Text('10/12/2022'),
+                    Text(modelDiary.date),
                     WidgetSatisfaction(
-                      text: "Insatisfacción",
+                      text: modelDiary.state,
                     ),
                   ],
                 ),
               ),
               autofocus: true,
-              title: Text('Titulo de historia 1'),
+              title: Text(modelDiary.title),
               subtitle:
-              Text('Hoy obtuve un nuevo trabajo como desarrollador y las horas laborales son bastante ligeras'),
+              Text(modelDiary.history),
               trailing: Icon(Icons.more_vert_rounded),
               isThreeLine: true,
             ),

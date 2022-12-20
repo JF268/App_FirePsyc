@@ -10,3 +10,12 @@ Widget dividerW3() => const SizedBox(width: 3);
 Widget dividerW6() => const SizedBox(width: 6);
 Widget dividerW10() => const SizedBox(width: 10);
 
+Widget loadingWidget()=> Center(
+  child: SizedBox(
+    height: 50,
+    width: 50,
+    child: CircularProgressIndicator(
+      strokeWidth: 2.2,
+      color: Colors.teal,
+    ),
+  ),);

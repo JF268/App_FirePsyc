@@ -1,17 +1,17 @@
-//Clase para poder manear Firestore
-class HistoryModel{
+//Clase para poder manejar Firestore
+class ModelDiary{
   String title;
   String history;
   String date;
   String state;
 
-  HistoryModel({
+  ModelDiary({
     required this.title,
     required this.history,
     required this.date,
     required this.state,
 });
-  factory HistoryModel.fromJson(Map<String,dynamic> json) => HistoryModel(
+  factory ModelDiary.fromJson(Map<String, dynamic> json) => ModelDiary(
       title: json["title"],
       history: json["history"],
       date: json["date"],
