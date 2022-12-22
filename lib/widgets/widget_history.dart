@@ -14,7 +14,7 @@ class HistoryWidget extends StatelessWidget {
   //Creamos un objeto de MyserviceFirestore
 
   final ServiceFirestore _myServiceFirestore = ServiceFirestore(collection: "productividad");
-
+  //dialogo de alerta para eliminar una tarea
   showDeleteHistory(BuildContext context){
     showDialog(context: context, builder: (BuildContext context){
       return AlertDialog(
@@ -105,8 +105,11 @@ class HistoryWidget extends StatelessWidget {
                 ),
                 onSelected: (value){
                   if(value == 2){
-                    //ejecutanis método para tachar historia
+                    //ejecutamos método para tachar historia
                     showDeleteHistory(context);
+                  }
+                  if(value == 1){
+
                   }
                 },
                 itemBuilder: (BuildContext context){

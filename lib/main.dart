@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:psycjfapp/pages/home_pages.dart';
+import 'package:psycjfapp/pages/login.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: "Inicio de la aplicación",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(textTheme: GoogleFonts.varelaRoundTextTheme()),
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }
