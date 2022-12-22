@@ -70,12 +70,19 @@ class MyDiary extends StatelessWidget {
                   stream: historia.snapshots(),
                   builder: (BuildContext context, AsyncSnapshot snap){
                     if(snap.hasData){
-                      List<ModelDiary> historys = []; 
+                      List<ModelDiary> historys = [];
                       QuerySnapshot collection = snap.data;
-                      collection.docs.forEach((element) {
-                        Map<String, dynamic> myMap = element.data() as Map<String, dynamic>;
-                        historys.add(ModelDiary.fromJson(myMap));
-                      });
+                      // collection.docs.forEach((element) {
+                      //   Map<String, dynamic> myMap = element.data() as Map<String, dynamic>;
+                      //   historys.add(ModelDiary.fromJson(myMap));
+                      // });
+
+                      historys = collection.docs.map((e){
+                        ModelDiary model = ModelDiary.fromJson(e.data() as Map<String, dynamic>);
+                        model.id = e.id;
+                        return model;
+                      }).toList();
+
                       return ListView.builder(
                         itemCount: historys.length,
                         shrinkWrap: true,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:psycjfapp/models/diary_model.dart';
+import 'package:psycjfapp/services/service_firestore.dart';
+import 'package:psycjfapp/widgets/colors_diary.dart';
+import 'package:psycjfapp/widgets/divider_widget.dart';
 import 'package:psycjfapp/widgets/satisfaction_widget.dart';
 
 class HistoryWidget extends StatelessWidget {
@@ -7,6 +10,66 @@ class HistoryWidget extends StatelessWidget {
   ModelDiary modelDiary;
 
   HistoryWidget({required this.modelDiary});
+
+  //Creamos un objeto de MyserviceFirestore
+
+  final ServiceFirestore _myServiceFirestore = ServiceFirestore(collection: "productividad");
+
+  showDeleteHistory(BuildContext context){
+    showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(35),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text("¿Eliminar del diario?",style: TextStyle(
+              color: Colors.black54,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),),
+            divider10(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:const[
+                Icon(Icons.delete_rounded,size: 40,),
+                Icon(Icons.book_outlined, size: 40,),
+              ],
+            ),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(onPressed: (){
+                      Navigator.pop(context);
+                    }, child: const Text("Cancelar",style:TextStyle(
+                      color: Colors.teal,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                    ),)),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: NosatisfactoryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14.5),
+                            )
+                        ) ,
+                        onPressed: (){
+                          _myServiceFirestore.DeleteHistory(modelDiary.id!);
+                          Navigator.pop(context);
+                        }, child: Text("Borrar") )
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +93,27 @@ class HistoryWidget extends StatelessWidget {
               autofocus: true,
               title: Text(modelDiary.title),
               subtitle:
-              Text(modelDiary.history),
+              Text(modelDiary.history,style: TextStyle(
+
+              ),),
               trailing: PopupMenuButton(
                 elevation: 2,
                 color: Colors.teal,
+                icon: Icon(Icons.expand_more_rounded),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 onSelected: (value){
-                  print(value);
+                  if(value == 2){
+                    //ejecutanis método para tachar historia
+                    showDeleteHistory(context);
+                  }
                 },
                 itemBuilder: (BuildContext context){
                   return [
                     PopupMenuItem(
                       value: 1,
-                      child: Text("Editar"),),
+                      child: Text("Reescribir"),),
                     PopupMenuItem(
                       value: 2,
                       child: Text("Borrar del diario"),),
