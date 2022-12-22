@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:psycjfapp/models/diary_model.dart';
+import 'package:psycjfapp/widgets/History_form_widget.dart';
+import 'package:psycjfapp/widgets/button_widget.dart';
+import 'package:psycjfapp/widgets/colors_diary.dart';
 import 'package:psycjfapp/widgets/divider_widget.dart';
+import 'package:psycjfapp/widgets/textfielf_form_widget.dart';
 import 'package:psycjfapp/widgets/widget_history.dart';
 
 
@@ -10,6 +14,17 @@ class MyDiary extends StatelessWidget {
   //instanciando una colección(objeto) de firestore - apuntando
   CollectionReference historia = FirebaseFirestore.instance.collection('productividad');
 
+  //Método para ingresar una nueva historia
+
+  showFormHistory(BuildContext context){
+    showModalBottomSheet(
+        context: context ,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context){
+          return HistoryWidgetForm();
+        }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +45,7 @@ class MyDiary extends StatelessWidget {
           actions: <Widget> [
             IconButton(onPressed: (){
               //Codigo para añadir entrada al diario
+              showFormHistory(context);
             }, icon: const Icon(Icons.border_color,color: Colors.black45,))
           ],
         ),
@@ -44,6 +60,7 @@ class MyDiary extends StatelessWidget {
                   color: Colors.black87.withOpacity(0.55),
                 ),),
                 divider6(),
+                //llamando a streambuilder desde Firebase
                 StreamBuilder(
                   stream: historia.snapshots(),
                   builder: (BuildContext context, AsyncSnapshot snap){
