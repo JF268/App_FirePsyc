@@ -17,4 +17,11 @@ class ModelDiary{
       date: json["date"],
       state: json["state"],
   );
+
+  Map <String, dynamic>toJson()=>{
+    "title": title,
+    "history": history,
+    "date":date,
+    "state": state,
+};
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:psycjfapp/models/diary_model.dart';
+import 'package:psycjfapp/services/service_firestore.dart';
 import 'package:psycjfapp/widgets/button_widget.dart';
 import 'package:psycjfapp/widgets/colors_diary.dart';
 import 'package:psycjfapp/widgets/divider_widget.dart';
 import 'package:psycjfapp/widgets/textfielf_form_widget.dart';
-
 
 class HistoryWidgetForm extends StatefulWidget {
   const HistoryWidgetForm({Key? key}) : super(key: key);
@@ -13,6 +14,10 @@ class HistoryWidgetForm extends StatefulWidget {
 }
 
 class _HistoryWidgetFormState extends State<HistoryWidgetForm> {
+
+  //
+
+
 //función para escoger fecha
 SelectDate() async{
   DateTime? datetime = await showDatePicker(
@@ -40,8 +45,9 @@ SelectDate() async{
           child: widget!,);
       }
   );
-  
+  // Si datetime es diferente a nulo
   if(datetime != null){
+    //convertimos a string y extraemos solo 10 caracteres
     _dateController.text = datetime.toString().substring(0,10);
     setState(() {
 
@@ -49,6 +55,37 @@ SelectDate() async{
   }
 }
 
+//función para guardar historia para el diario
+  registerHistory(){
+  if(formKey.currentState!.validate()){
+   //
+    ModelDiary modelDiary = ModelDiary(
+        title: _tituloController.text,
+        history: _historyController.text,
+        date: _dateController.text,
+        state: stateSelected);
+    historyService.addHistory(modelDiary).then((value){
+      if(value.isNotEmpty){
+        //Mostrar mensaje de aprobación
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.teal,
+                content: Row(
+                children: [
+                  Icon(Icons.data_saver_on),
+                  Text("¡¡Añadido al diario!!"),
+                ],
+                )));
+      }
+    }).catchError((onError){
+      //
+    });
+  }
+  }
+
+final formKey = GlobalKey<FormState>();
+ServiceFirestore historyService = ServiceFirestore(collection: "productividad");
 final TextEditingController _tituloController = TextEditingController();
 final TextEditingController _historyController = TextEditingController();
 final TextEditingController _dateController = TextEditingController();
@@ -63,79 +100,84 @@ String stateSelected = "Satisfacción";
           color: Colors.teal,
           borderRadius: BorderRadius.only(topLeft: Radius.circular(22.0)),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("Agregar Historia para hoy",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
-            divider10(),
-            TextFieldHistory(
-              hinText: "Título",
-              icon: Icons.title,
-              controller: _tituloController,
-            ),
-            divider10(),
-            TextFieldHistory(
-              hinText: "Historia del día",
-              icon: Icons.history_edu_outlined,
-              controller: _historyController,
-            ),
-            divider10(),
-            Text("Calificas este día con:",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
-            Wrap(
-              runAlignment: WrapAlignment.start,
-              alignment: WrapAlignment.start,
-              spacing: 5.0,
-              children: [
-                FilterChip(
-                    selected: stateSelected == "Satisfacción",
-                    backgroundColor: Colors.blueAccent,
-                    padding: const EdgeInsets.symmetric(horizontal: 7.0),
-                    selectedColor: categoryColor[stateSelected],
-                    labelStyle: TextStyle(
-                      color: stateSelected == "Satisfacción" ? Colors.white: Colors.grey,
-                    ),
-                    label: Text("Satisfacción"), onSelected: (bool value){
-                      stateSelected = "Satisfacción";
-                      setState(() {});
-                }),
-                FilterChip(
-                    selected: stateSelected == "Insatisfacción",
-                    backgroundColor: Colors.blueAccent,
-                    padding: const EdgeInsets.symmetric(horizontal: 7.0),
-                    selectedColor: categoryColor[stateSelected],
-                    labelStyle: TextStyle(
-                      color: stateSelected == "Insatisfacción" ? Colors.white: Colors.grey,
-                    ),
-                    label: Text("Insatisfacción"), onSelected: (bool value){
-                  stateSelected = "Insatisfacción";
-                  setState(() {});
-                }),
-                FilterChip(
-                    selected: stateSelected == "Neutro",
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 7.0),
-                    selectedColor: categoryColor[stateSelected],
-                    labelStyle: TextStyle(
-                      color: stateSelected == "Neutro" ? Colors.white: Colors.grey,
-                    ),
-                    label: Text("Neutro"), onSelected: (bool value){
-                  stateSelected = "Neutro";
-                  setState(() {});
-                }),
-              ],),
-            divider3(),
-            TextFieldHistory(
-              hinText: "Fecha",
-              icon: Icons.date_range_rounded,
-              controller: _dateController,
-              onTap: (){
-                //TODO codigo para llamar al metodo para escoger fecha
-                SelectDate();
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Agregar Historia para hoy",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
+              divider10(),
+              TextFieldHistory(
+                hinText: "Título",
+                icon: Icons.title,
+                controller: _tituloController,
+              ),
+              divider10(),
+              TextFieldHistory(
+                hinText: "Historia del día",
+                icon: Icons.history_edu_outlined,
+                controller: _historyController,
+              ),
+              divider10(),
+              Text("Calificas este día con:",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
+              Wrap(
+                runAlignment: WrapAlignment.start,
+                alignment: WrapAlignment.start,
+                spacing: 5.0,
+                children: [
+                  FilterChip(
+                      selected: stateSelected == "Satisfacción",
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                      selectedColor: categoryColor[stateSelected],
+                      labelStyle: TextStyle(
+                        color: stateSelected == "Satisfacción" ? Colors.white: Colors.grey,
+                      ),
+                      label: Text("Satisfacción"), onSelected: (bool value){
+                        stateSelected = "Satisfacción";
+                        setState(() {});
+                  }),
+                  FilterChip(
+                      selected: stateSelected == "Insatisfacción",
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                      selectedColor: categoryColor[stateSelected],
+                      labelStyle: TextStyle(
+                        color: stateSelected == "Insatisfacción" ? Colors.white: Colors.grey,
+                      ),
+                      label: Text("Insatisfacción"), onSelected: (bool value){
+                    stateSelected = "Insatisfacción";
+                    setState(() {});
+                  }),
+                  FilterChip(
+                      selected: stateSelected == "Neutro",
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                      selectedColor: categoryColor[stateSelected],
+                      labelStyle: TextStyle(
+                        color: stateSelected == "Neutro" ? Colors.white: Colors.grey,
+                      ),
+                      label: Text("Neutro"), onSelected: (bool value){
+                    stateSelected = "Neutro";
+                    setState(() {});
+                  }),
+                ],),
+              divider3(),
+              TextFieldHistory(
+                hinText: "Fecha",
+                icon: Icons.date_range_rounded,
+                controller: _dateController,
+                onTap: (){
+                  //TODO codigo para llamar al metodo para escoger fecha
+                  SelectDate();
+                },),
+              divider3(),
+              ButtonW(onPressed:(){
+                registerHistory();
               },),
-            divider3(),
-            ButtonW(),
-          ],
+            ],
+          ),
         )
     );
   }

@@ -19,9 +19,14 @@ class MyDiary extends StatelessWidget {
   showFormHistory(BuildContext context){
     showModalBottomSheet(
         context: context ,
+        isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (BuildContext context){
-          return HistoryWidgetForm();
+          return Padding(
+            //Consumir el espacio que quita el teclado para visualizar el form
+            padding: MediaQuery.of(context).viewInsets,
+            child: HistoryWidgetForm(),
+          );
         }
     );
   }

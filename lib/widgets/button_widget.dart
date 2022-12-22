@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ButtonW extends StatelessWidget {
-  const ButtonW({Key? key}) : super(key: key);
+  Function onPressed;
+
+  ButtonW({required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class ButtonW extends StatelessWidget {
             ),
             onPressed: (){
               //TODO codigo para guardar historia
+              onPressed();
             }, child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
