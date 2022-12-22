@@ -19,3 +19,35 @@ Widget loadingWidget()=> Center(
       color: Colors.teal,
     ),
   ),);
+
+
+showSnackBarSuccess(BuildContext context, String text){
+  ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.teal,
+          content: Row(
+            children: [
+              Icon(Icons.data_saver_on),
+              dividerW6(),
+              Text(text),
+            ],
+          )));
+
+}
+
+
+showSnackBarError(BuildContext context, String text){
+  ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.redAccent,
+          content: Row(
+            children: [
+              Icon(Icons.warning_rounded, color: Colors.white,),
+              dividerW6(),
+              Text(text),
+            ],
+          )));
+
+}

@@ -68,18 +68,10 @@ SelectDate() async{
       if(value.isNotEmpty){
         //Mostrar mensaje de aprobación
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.teal,
-                content: Row(
-                children: [
-                  Icon(Icons.data_saver_on),
-                  Text("¡¡Añadido al diario!!"),
-                ],
-                )));
+        showSnackBarSuccess(context, "¡¡Añadido al diario!!");
       }
     }).catchError((onError){
-      //
+        showSnackBarError(context, "Ups, No se pudo guardar, inténtalo de nuevo");
     });
   }
   }

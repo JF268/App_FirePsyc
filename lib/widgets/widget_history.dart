@@ -31,7 +31,26 @@ class HistoryWidget extends StatelessWidget {
               title: Text(modelDiary.title),
               subtitle:
               Text(modelDiary.history),
-              trailing: Icon(Icons.more_vert_rounded),
+              trailing: PopupMenuButton(
+                elevation: 2,
+                color: Colors.teal,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                onSelected: (value){
+                  print(value);
+                },
+                itemBuilder: (BuildContext context){
+                  return [
+                    PopupMenuItem(
+                      value: 1,
+                      child: Text("Editar"),),
+                    PopupMenuItem(
+                      value: 2,
+                      child: Text("Borrar del diario"),),
+                  ];
+                },
+                  ),
               isThreeLine: true,
             ),
           ),
