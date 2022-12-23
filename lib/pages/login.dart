@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:psycjfapp/widgets/TextFieldPass.dart';
+import 'package:psycjfapp/widgets/button2_widget.dart';
+import 'package:psycjfapp/widgets/button_widget.dart';
 import 'package:psycjfapp/widgets/divider_widget.dart';
+import 'package:psycjfapp/widgets/textfielf_form_widget.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -17,26 +21,48 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image:DecorationImage(image: AssetImage("assets/images/wallpaperuse.com-wallpaper-para-celular-32843.jpg"),
-              fit: BoxFit.fill),
-            ),
+      body:Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/wallpaperuse.com-wallpaper-para-celular-32843.jpg"),
+            fit: BoxFit.cover,
           ),
-          Container( // container para imagen de fondo login
-            height: double.infinity,
-            child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(
-                horizontal: 40.0,
-                vertical: 120.0,
-              ),
-
-            ),
-          )
-        ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              Image.asset("assets/images/logo2.jpg",
+                height: 250,
+                width: 250,),
+              Text("INICIAR SESIÓN en PsyC-JF", style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white),),
+              Divider(thickness: 7,color: Colors.white70,),
+              divider6(),
+              Text("El cambio lo haces tu mismo",
+                  style: TextStyle(
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white)),
+              divider10(),
+              TextFieldHistory(hinText: "Email", icon: Icons.person, controller: _emailController),
+              divider10(),
+              TextFieldPassword(controller: _passwordController),
+              divider10(),
+              ButtonCustom(text: "Iniciar Sesión", color: Colors.teal, icon: Icons.login_rounded),
+              divider6(),
+              Text("Iniciar con Google",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white)),
+              divider3(),
+              ButtonCustom(text: "Iniciar Sesión", color: Colors.teal, icon: Icons.g_mobiledata),
+            ],
+          ),
+        ),
       ),
     );
   }

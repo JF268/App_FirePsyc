@@ -1,33 +1,37 @@
 import 'package:flutter/material.dart';
 
+class TextFieldPassword extends StatefulWidget {
+  TextEditingController controller ;
 
-class TextFieldHistory extends StatelessWidget {
-  //enviar texto y cambiar icono
-  String hinText;
-  IconData icon;
-  //Función para elegir fecha
-  Function? onTap;
-  TextEditingController controller;
-  //Contructor
-  TextFieldHistory({required this.hinText,
-  required this.icon,
-  this.onTap,
-  required this.controller,});
+  TextFieldPassword({required this.controller});
+
   @override
+  State<TextFieldPassword> createState() => _TextFieldPasswordState();
+}
 
+class _TextFieldPasswordState extends State<TextFieldPassword> {
+
+  bool isInvisible = true;
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      onTap: onTap != null? (){onTap!();} : null,
-      readOnly: onTap != null? true:false,
+      controller: widget.controller,
+      obscureText: isInvisible,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
         prefixIcon: Icon(
-          icon,
-          size: 20.0,
+          Icons.lock_person,
+          size: 25.0,
           color: Colors.teal,
         ),
-        hintText: hinText,
+        suffixIcon: IconButton(
+          icon: Icon( isInvisible ? Icons.remove_red_eye:Icons.remove_red_eye_outlined,color: Colors.teal,size: 30,),
+          onPressed: (){
+            isInvisible = !isInvisible;
+            setState(() {});
+        },
+        ) ,
+        hintText: "Contraseña",
         hintStyle: TextStyle(
           fontSize: 14.0,
           color: Colors.black54.withOpacity(0.6),
@@ -53,7 +57,7 @@ class TextFieldHistory extends StatelessWidget {
       ),
       validator: (String? value){
         if(value != null && value.isEmpty){
-          return "Tienes que llenar este campo";
+          return "Campo obligatorio";
         }
         return null;
       },
