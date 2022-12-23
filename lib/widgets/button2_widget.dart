@@ -26,7 +26,7 @@ class ButtonCustom extends StatelessWidget {
               borderRadius: BorderRadius.circular(15.0),
             )
         ),
-        icon: Icon(icon),
+        icon: Icon(icon,size: 35,),
         label:Text(text,style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.bold,

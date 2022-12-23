@@ -82,7 +82,6 @@ class MyDiary extends StatelessWidget {
                         model.id = e.id;
                         return model;
                       }).toList();
-
                       return ListView.builder(
                         itemCount: historys.length,
                         shrinkWrap: true,

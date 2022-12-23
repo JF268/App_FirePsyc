@@ -5,6 +5,7 @@ Widget divider3() => const SizedBox(height: 3);
 Widget divider6() => const SizedBox(height: 6);
 Widget divider10() => const SizedBox(height: 10);
 Widget divider20() => const SizedBox(height: 20);
+Widget divider70()=> const SizedBox(height: 70);
 //Widgets para ancho
 Widget dividerW3() => const SizedBox(width: 3);
 Widget dividerW6() => const SizedBox(width: 6);
