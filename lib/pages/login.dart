@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:psycjfapp/pages/home_pages.dart';
 import 'package:psycjfapp/pages/register_page.dart';
 import 'package:psycjfapp/widgets/TextFieldPass.dart';
 import 'package:psycjfapp/widgets/button2_widget.dart';
@@ -16,9 +18,38 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   //controladores para login
+  final formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  //metodo para acceder al login
+  login()async{
+    try{
+     if(formKey.currentState!.validate()){
+       //codigo para acceder al login
+       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+           email: _emailController.text,
+           password: _passwordController.text);
+       if(userCredential.user != null){
+         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomePage()),(route) => false);
+       }
+     }
+    }on FirebaseAuthException catch(error){
+      //mandando errores para romper la ejecuión
+      if(error.code == "invalid-email"){
+        showSnackBarError(context, "El correo electrónico es inválido");
+      }else if(error.code =="user-not-found"){
+        showSnackBarError(context, "El usuario no está registrado");
+      } else if(error.code =="wrong-password"){
+        showSnackBarError(context, "La contraseña es incorrecta");
+      }
+    }
+  }
+
+  //método para iniciar con google
+  loginGoogle(){
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,58 +64,68 @@ class _LoginPageState extends State<LoginPage> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                divider70(),
-                Image.asset("assets/images/logo2.jpg",
-                  height: 250,
-                  width: 250,),
-                Text("INICIAR SESIÓN en PsyC-JF", style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),),
-                Divider(thickness: 7,color: Colors.white70,),
-                divider6(),
-                Text("El cambio lo haces tu mismo",
-                    style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white)),
-                divider10(),
-                TextFieldHistory(hinText: "Email", icon: Icons.person, controller: _emailController),
-                divider10(),
-                TextFieldPassword(controller: _passwordController),
-                divider10(),
-                ButtonCustom(text: "Iniciar Sesión", color: Colors.teal, icon: Icons.login_rounded,
-                onPressed: (){},),
-                divider6(),
-                Text("Iniciar con Google",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white)),
-                divider3(),
-                ButtonCustom(text: "Iniciar Sesión", color: Colors.teal, icon: Icons.g_mobiledata,
-                onPressed: (){},),
-                divider6(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    dividerW6(),
-                    InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> RegisterPage()));
-                      },
-                      child: Text("Toca aqui para registrarte si no tienes cuenta",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
-                    ),
-                  ],
-                )
-              ],
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  divider70(),
+                  Image.asset("assets/images/logo2.jpg",
+                    height: 250,
+                    width: 250,),
+                  Text("INICIAR SESIÓN en PsyC-JF", style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white),),
+                  Divider(thickness: 7,color: Colors.white70,),
+                  divider6(),
+                  Text("El cambio lo haces tu mismo",
+                      style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white)),
+                  divider10(),
+                  TextFieldHistory(hinText: "Email", icon: Icons.person, controller: _emailController),
+                  divider10(),
+                  TextFieldPassword(controller: _passwordController),
+                  divider10(),
+                  //boton para inicio de sesión normal
+                  ButtonCustom(text: "Iniciar Sesión", color: Colors.teal, icon: Icons.login_rounded,
+                  onPressed: (){
+                    login();
+                  },),
+                  divider6(),
+                  //iniciar sesión (text)
+                  Text("Iniciar con Google",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white)),
+                  divider3(),
+                  //Iniciar sesion con google (boton)
+                  ButtonCustom(text: "Iniciar Sesión", color: Colors.teal, icon: Icons.g_mobiledata,
+                  onPressed: (){
+                    loginGoogle();
+                  },),
+                  divider6(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      dividerW6(),
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> RegisterPage()));
+                        },
+                        child: Text("Toca aqui para registrarte si no tienes cuenta",
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
