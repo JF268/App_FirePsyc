@@ -6,11 +6,13 @@ class ButtonCustom extends StatelessWidget {
   String text;
   Color color;
   IconData icon;
+  Function onPressed;
 
   ButtonCustom({
     required this.text,
     required this.color,
     required this.icon,
+    required this.onPressed,
 });
 
   @override
@@ -19,7 +21,9 @@ class ButtonCustom extends StatelessWidget {
       height: 52.0,
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: (){},
+        onPressed: (){
+          onPressed();
+        },
         style: ElevatedButton.styleFrom(
             primary: color,
             shape: RoundedRectangleBorder(

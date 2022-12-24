@@ -55,7 +55,8 @@ class _LoginPageState extends State<LoginPage> {
                 divider10(),
                 TextFieldPassword(controller: _passwordController),
                 divider10(),
-                ButtonCustom(text: "Iniciar Sesión", color: Colors.teal, icon: Icons.login_rounded),
+                ButtonCustom(text: "Iniciar Sesión", color: Colors.teal, icon: Icons.login_rounded,
+                onPressed: (){},),
                 divider6(),
                 Text("Iniciar con Google",
                     style: TextStyle(
@@ -63,7 +64,8 @@ class _LoginPageState extends State<LoginPage> {
                         fontWeight: FontWeight.bold,
                         color: Colors.white)),
                 divider3(),
-                ButtonCustom(text: "Iniciar Sesión", color: Colors.teal, icon: Icons.g_mobiledata),
+                ButtonCustom(text: "Iniciar Sesión", color: Colors.teal, icon: Icons.g_mobiledata,
+                onPressed: (){},),
                 divider6(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

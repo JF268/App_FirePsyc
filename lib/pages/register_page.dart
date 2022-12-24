@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:psycjfapp/widgets/TextFieldPass.dart';
 import 'package:psycjfapp/widgets/button2_widget.dart';
@@ -17,6 +18,13 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _fullnameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  _registerUser() async{
+    UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: "lobito2@gmail.com",
+        password: "lobo2026");
+    print(userCredential);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +60,9 @@ class _RegisterPageState extends State<RegisterPage> {
               divider10(),
               TextFieldPassword(controller: _passwordController),
               divider10(),
-              ButtonCustom(text: "¡REGISTRATE!", color: Colors.teal, icon: Icons.app_registration),
+              ButtonCustom(text: "¡REGISTRATE!", color: Colors.teal, icon: Icons.app_registration, onPressed: (){
+                _registerUser();
+              },),
             ],
 
           ),
