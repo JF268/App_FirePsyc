@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:psycjfapp/pages/login.dart';
 import 'package:psycjfapp/widgets/colors_diary.dart';
 import 'package:psycjfapp/widgets/divider_widget.dart';
 import 'package:psycjfapp/widgets/textfielf_form_widget.dart';
@@ -13,6 +15,9 @@ class PageStart extends StatefulWidget {
 }
 
 class _PageStartState extends State<PageStart> {
+
+  //instancia de google
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   late TextEditingController _queryController;
   List<_MyBook> _books = [];
@@ -39,14 +44,23 @@ class _PageStartState extends State<PageStart> {
             ),
           ),
           title: Center(child: Text("PsyC-JF - Descubre", style: TextStyle(fontWeight: FontWeight.w500),)),
-          actions: <Widget> [],
+          leading: IconButton(onPressed: (){
+
+          }, icon: Icon(Icons.remove_red_eye_rounded,size: 35,),),
+          actions: <Widget> [
+            IconButton(onPressed: (){
+              //Salir de la App
+              _googleSignIn.signOut();
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginPage()), (route) => false);
+            }, icon: const Icon(Icons.logout,color: Colors.black45,size: 35,))
+          ],
         ),
       body:Column(
         children: <Widget>[
           divider20(),
           Text("Busca algun libro para obtener detalles",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
           divider10(),
-          Text("Por ejemplo: 'PHP','MySQL'",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),
+          Text("Por ejemplo: 'PHP', 'MySQL'",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),
           divider10(),
           Padding(
             padding: const EdgeInsets.all(8.0),
