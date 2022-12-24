@@ -1,6 +1,6 @@
 //Clase para poder manejar Firestore
 class ModelDiary{
-  //añadimos el id
+  //añadimos el id puede ser nulo
   String? id;
   String title;
   String history;
