@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:psycjfapp/models/user_model.dart';
 import 'package:psycjfapp/pages/home_pages.dart';
 import 'package:psycjfapp/pages/register_page.dart';
+import 'package:psycjfapp/services/service_firestore.dart';
 import 'package:psycjfapp/widgets/TextFieldPass.dart';
 import 'package:psycjfapp/widgets/button2_widget.dart';
 import 'package:psycjfapp/widgets/button_widget.dart';
@@ -21,6 +24,12 @@ class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  //instancia final de Google
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ["email"]);
+
+  //Creamos una instancia del servicio de Firestore
+
+  ServiceFirestore userService = ServiceFirestore(collection: 'users');
 
   //metodo para acceder al login
   login()async{
@@ -47,9 +56,40 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   //método para iniciar con google
-  loginGoogle(){
+  loginGoogle() async{
+    GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+    if(googleSignInAccount == null){
+      return;
+    }
+
+    GoogleSignInAuthentication _googleSignInAuth = await googleSignInAccount.authentication;
+    OAuthCredential credential =  GoogleAuthProvider.credential(
+      idToken: _googleSignInAuth.idToken,
+      accessToken: _googleSignInAuth.idToken,
+    );
+    UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+    if(userCredential.user != null){
+      UserModel userModel = UserModel(
+          fullName: userCredential.user!.displayName!,
+          email: userCredential.user!.email!);
+      //llamar al metodo checkuser para verificar si el correo existe
+      userService.checkUser(userCredential.user!.email!).then((value){
+        if(!value){
+          userService.addUser(userModel).then((value){
+            if(value.isNotEmpty){
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomePage()), (route) => false);
+            }
+          });
+        } else {
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomePage()), (route) => false);
+        }
+      });
+    }
 
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

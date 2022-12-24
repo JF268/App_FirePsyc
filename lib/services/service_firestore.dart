@@ -37,5 +37,13 @@ class ServiceFirestore{
 
   }
 
-  //actualizar
+  //validar el usuario
+  Future<bool> checkUser(String email)async{
+     QuerySnapshot collection = await historia.where("email", isEqualTo: email).get();
+     if(collection.docs.isNotEmpty){
+       return true;
+     }
+     return false;
+  }
+
 }
