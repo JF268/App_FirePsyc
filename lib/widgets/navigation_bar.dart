@@ -25,7 +25,7 @@ class _NavigationBarCustomState extends State<NavigationBarCustom> {
         items: const[
           BottomNavigationBarItem(icon: Icon(Icons.home_max),label: 'Inicio'),
           BottomNavigationBarItem(icon: Icon(Icons.book_rounded),label:'Mi Diario'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings),label:'Configuración'),
+          BottomNavigationBarItem(icon: Icon(Icons.adb_rounded),label:'Detalle PsyC-JF'),
         ],
     );
   }

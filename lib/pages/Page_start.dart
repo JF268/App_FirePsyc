@@ -60,7 +60,7 @@ class _PageStartState extends State<PageStart> {
           divider20(),
           Text("Busca algun libro para obtener detalles",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
           divider10(),
-          Text("Por ejemplo: 'PHP', 'MySQL'",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),
+          Text("Por ejemplo: 'PHP', 'Programming'",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),
           divider10(),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -97,6 +97,32 @@ class _PageStartState extends State<PageStart> {
                 itemBuilder: (ctx, i) => _bookToListTile(_books[i]),
               ),
             ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.teal,
+            ),
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text("Establezca prioridades.",style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
+                  subtitle: Text("Hola a todos, está es mi app",style: TextStyle(color: Colors.black, fontWeight: FontWeight.w300),),
+                  trailing: Icon(Icons.priority_high),
+                ),
+                Divider(thickness: 6,),
+                ListTile(
+                  title: Text("Establezca prioridades.",style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
+                  subtitle: Text("Hola a todos, está es mi app",style: TextStyle(color: Colors.black, fontWeight: FontWeight.w300),),
+                  trailing: Icon(Icons.priority_high),
+                ),
+                Divider(thickness: 6,),
+                ListTile(
+                  title: Text("Haga ejercicio con regularidad.",style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
+                  subtitle: Text("Una caminata moderada de solo 30 minutos por día puede ayudar a levantarle el ánimo y reducir el estrés.",style: TextStyle(color: Colors.black, fontWeight: FontWeight.w300),),
+                  trailing: Icon(Icons.directions_run),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
 
